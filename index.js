@@ -1,7 +1,7 @@
 // http://bigocheatsheet.com/
 
-// Array
-////////////////////////////////////////////////////
+console.log('//// Array');
+console.log('////////////////////////////////////////////////////');
 /* 
   Complexity
 
@@ -41,8 +41,8 @@ console.log('did we find e?', superArray.array[indexOfE] === 'e');
 //  Print array
 console.log('superArray.print(): ', superArray.print());
 
-// Hash Table 
-////////////////////////////////////////////////////
+console.log('\n\n\n//// Hash Table');
+console.log('////////////////////////////////////////////////////');
 /* 
 
   Average      
@@ -50,4 +50,17 @@ console.log('superArray.print(): ', superArray.print());
   -       O(1)    O(1)       O(1)
 */
 
-// import HashTable from './structures/hash-table'
+import HashTable from './structures/hash-table'
+
+const hashTable = new HashTable(3)
+hashTable.add('first', 1)
+hashTable.add('second', 2)
+hashTable.add('third', 3)
+hashTable.add('fourth', 4)
+hashTable.add('fifth', 5)
+console.log('hashTable.length()', hashTable.length());
+hashTable.remove('second')
+console.log("hashTable.search('fourth')", hashTable.search('fourth'));
+hashTable.printAll()
+
+

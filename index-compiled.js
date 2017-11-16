@@ -180,10 +180,90 @@ var SuperArray = function () {
   return SuperArray;
 }();
 
+// https://www.youtube.com/watch?v=shs0KM3wKv8
+
+var HashTable = function () {
+  function HashTable(size) {
+    classCallCheck(this, HashTable);
+
+    this.values = {};
+    this.numberOfValues = 0;
+    this.size = size;
+  }
+
+  createClass(HashTable, [{
+    key: 'add',
+    value: function add(key, value) {
+      var hash = this.calculateHash(key);
+      if (!this.values.hasOwnProperty(hash)) {
+        this.values[hash] = [];
+      }
+
+      if (!this.values[hash].hasOwnProperty(key)) {
+        this.numberOfValues++;
+      }
+
+      this.values[hash][key] = value;
+    }
+  }, {
+    key: 'remove',
+    value: function remove(key) {
+      var hash = this.calculateHash(key);
+      if (this.values.hasOwnProperty(hash) && this.values[hash].hasOwnProperty(key)) {
+        delete this.values[hash][key];
+        this.numberOfValues--;
+      }
+    }
+  }, {
+    key: 'calculateHash',
+    value: function calculateHash(key) {
+      // https://en.wikipedia.org/wiki/Hash_function
+      // Hashing is the transformation of a string of characters into a 
+      // usually shorter fixed-length value or key that represents the 
+      // original string. Hashing is used to index and retrieve items 
+      // in a database because it is faster to find the item using the 
+      // shorter hashed key than to find it using the original value.
+      // 
+      // So, this is a crappy hash function
+      var hash = key.toString().length % this.size;
+      return hash;
+    }
+  }, {
+    key: 'search',
+    value: function search(key) {
+      var hash = this.calculateHash(key);
+      if (this.values.hasOwnProperty(hash) && this.values[hash].hasOwnProperty(key)) {
+        return this.values[hash];
+      } else {
+        return null;
+      }
+    }
+  }, {
+    key: 'length',
+    value: function length() {
+      return this.numberOfValues;
+    }
+  }, {
+    key: 'printAll',
+    value: function printAll() {
+      var string = '';
+      for (var value in this.values) {
+        // Becasue different values will have the same 
+        //  key as our calculateHash function is bad
+        for (var key in this.values[value]) {
+          string += this.values[value][key] + ', ';
+        }
+      }
+      console.log('Printing all in hash table: ', string.trim());
+    }
+  }]);
+  return HashTable;
+}();
+
 // http://bigocheatsheet.com/
 
-// Array
-////////////////////////////////////////////////////
+console.log('//// Array');
+console.log('////////////////////////////////////////////////////');
 /* 
   Complexity
 
@@ -220,8 +300,8 @@ console.log('did we find e?', superArray.array[indexOfE] === 'e');
 //  Print array
 console.log('superArray.print(): ', superArray.print());
 
-// Hash Table 
-////////////////////////////////////////////////////
+console.log('\n\n\n//// Hash Table');
+console.log('////////////////////////////////////////////////////');
 /* 
 
   Average      
@@ -229,4 +309,13 @@ console.log('superArray.print(): ', superArray.print());
   -       O(1)    O(1)       O(1)
 */
 
-// import HashTable from './structures/hash-table'
+var hashTable = new HashTable(3);
+hashTable.add('first', 1);
+hashTable.add('second', 2);
+hashTable.add('third', 3);
+hashTable.add('fourth', 4);
+hashTable.add('fifth', 5);
+console.log('hashTable.length()', hashTable.length());
+hashTable.remove('second');
+console.log("hashTable.search('fourth')", hashTable.search('fourth'));
+hashTable.printAll();
