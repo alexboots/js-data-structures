@@ -260,6 +260,122 @@ var HashTable = function () {
   return HashTable;
 }();
 
+// https://www.youtube.com/watch?v=njTh_OwMljA
+
+function Node(data) {
+  this.data = data;
+  this.next = null;
+}
+
+var SinglyLinkedList = function () {
+  function SinglyLinkedList() {
+    classCallCheck(this, SinglyLinkedList);
+
+    this.head = null;
+    this.tail = null;
+    this.numberOfValues = 0;
+  }
+
+  createClass(SinglyLinkedList, [{
+    key: 'add',
+    value: function add(data) {
+      var node = new Node(data);
+
+      if (!this.head) {
+        this.head = node;
+        this.tail = node;
+      } else {
+        this.tail.next = node;
+        this.tail = node;
+      }
+      this.numberOfValues++;
+    }
+  }, {
+    key: 'remove',
+    value: function remove(data) {
+      var previous = this.head;
+      var current = this.head;
+
+      while (current) {
+        if (current.data === data) {
+          // If this is the data, overwrite all we need to 
+          //  to get rid of current Node
+          if (current === this.head) {
+            this.head = this.head.next;
+          }
+
+          if (current === this.tail) {
+            this.tail = previous;
+          }
+
+          previous.next = current.next;
+          this.numberOfValues--;
+        } else {
+          // Otherwise keep cycling through
+          previous = current;
+        }
+        // And onward we march
+        // tail.next will always be null
+        current = current.next;
+      }
+    }
+  }, {
+    key: 'insertAfter',
+    value: function insertAfter(data, toNodeData) {
+      var current = this.head;
+
+      while (current) {
+        if (current.data === toNodeData) {
+          var node = new Node(data);
+          if (current === this.tail) {
+            this.tail.next = node;
+            this.tail = node;
+          } else {
+            node.next = current.next;
+            current.next = node;
+          }
+          this.numberOfValues++;
+        }
+        current = current.next;
+      }
+    }
+  }, {
+    key: 'traverse',
+    value: function traverse(fn) {
+      var current = this.head;
+      while (current) {
+        if (fn) {
+          fn(current);
+        }
+        current = current.next;
+      }
+    }
+  }, {
+    key: 'length',
+    value: function length() {
+      return this.numberOfValues;
+    }
+  }, {
+    key: 'printAll',
+    value: function printAll() {
+      var string = '';
+      var current = this.head;
+
+      // Example of whats going on:
+      //  Say this.numberOfValues = 4
+      //  (this.head.next.next.next === this.tail) // true
+
+      while (current) {
+        string += current.data + ' ';
+        current = current.next;
+      }
+
+      console.log('All values in singly linked list: ', string.trim());
+    }
+  }]);
+  return SinglyLinkedList;
+}();
+
 // http://bigocheatsheet.com/
 
 console.log('//// Array');
@@ -319,3 +435,31 @@ console.log('hashTable.length()', hashTable.length());
 hashTable.remove('second');
 console.log("hashTable.search('fourth')", hashTable.search('fourth'));
 hashTable.printAll();
+
+console.log('\n\n\n//// Linked List');
+console.log('////////////////////////////////////////////////////');
+
+var singlyLinkedList = new SinglyLinkedList();
+
+singlyLinkedList.add(1);
+singlyLinkedList.add(2);
+singlyLinkedList.add(3);
+singlyLinkedList.add(4);
+singlyLinkedList.printAll();
+console.log('removed 2');
+singlyLinkedList.remove(2);
+singlyLinkedList.printAll();
+console.log('put 2 back, but after 3');
+singlyLinkedList.insertAfter(2, 3);
+// So eveything branches off this.head with this.[node].next
+//   console.log('singlyLinkedList', singlyLinkedList);
+singlyLinkedList.printAll();
+
+singlyLinkedList.traverse(function (node) {
+  node.data = node.data + 10;
+});
+singlyLinkedList.printAll(); // => 12 13 14 15 16 17 18
+singlyLinkedList.traverse(function (node) {
+  console.log(node.data);
+}); // => 12 13 14 15 16 17 18
+console.log('length', singlyLinkedList.length());

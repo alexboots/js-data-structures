@@ -64,3 +64,30 @@ console.log("hashTable.search('fourth')", hashTable.search('fourth'));
 hashTable.printAll()
 
 
+console.log('\n\n\n//// Linked List');
+console.log('////////////////////////////////////////////////////');
+
+import SinglyLinkedList from './structures/singly-linked-list'
+const singlyLinkedList =  new SinglyLinkedList()
+
+singlyLinkedList.add(1)
+singlyLinkedList.add(2)
+singlyLinkedList.add(3)
+singlyLinkedList.add(4)
+singlyLinkedList.printAll()
+console.log('removed 2');
+singlyLinkedList.remove(2)
+singlyLinkedList.printAll()
+console.log('put 2 back, but after 3');
+singlyLinkedList.insertAfter(2, 3);
+// So eveything branches off this.head with this.[node].next
+//   console.log('singlyLinkedList', singlyLinkedList);
+singlyLinkedList.printAll()
+
+singlyLinkedList.traverse(node => { node.data = node.data + 10; });
+singlyLinkedList.printAll(); // => 12 13 14 15 16 17 18
+singlyLinkedList.traverse(node => { console.log(node.data); }); // => 12 13 14 15 16 17 18
+console.log('length', singlyLinkedList.length())
+
+
+
