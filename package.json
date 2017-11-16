@@ -5,7 +5,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "rollup -c -w && npm run server",
+    "rollup": "rollup -c -w",
     "server": "http-server"
   },
   "devDependencies": {

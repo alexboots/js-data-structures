@@ -1,3 +1,4 @@
 ### Playground for data structures (es6 via babel / rollupjs)
 
-`yarn start` starts server and watches for changes
+`yarn rollup` to watch files
+`yarn server` to serve files
